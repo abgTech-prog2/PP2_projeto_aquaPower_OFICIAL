@@ -11,13 +11,15 @@ app.use(express.static("public")); //public
 app.engine("handlebars", exphbs.engine({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 app.set("views", "./views");
-
+//////////////////////////////////////////////////////////////////////////////
 
 
 app.get("/", (req,res) =>{
-    res.send("pagina inicial")
+    res.render("home")
 })
 
+
+//////////////////////////////////////////////////////////////////////////////
 app.listen(port, ()=>{
     console.log("Servidor ok")
 })
