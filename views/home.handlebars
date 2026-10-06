@@ -1,0 +1,443 @@
+<main class="home">
+    {{#if mensagem}}
+
+    <div class="alerta-central" id="alertaCentral">
+
+        {{#if (eq mensagem "cadastrado")}}
+
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Consumo cadastrado</span>
+
+        {{else if (eq mensagem "editado")}}
+
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Consumo editado</span>
+
+        {{else if (eq mensagem "excluido")}}
+
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Consumo excluído</span>
+
+        {{/if}}
+
+    </div>
+
+    {{/if}}
+    <!-- ============================= -->
+    <!-- HERO -->
+    <!-- ============================= -->
+
+    <section class="hero">
+
+        <h1>
+            Bem-vindo ao
+            <span class="aqua">Aqua</span><span class="power">Power!</span>
+        </h1>
+
+        <p>
+            Acompanhe seu consumo de água e energia de forma simples e eficiente.
+        </p>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- DASHBOARD -->
+    <!-- ============================= -->
+
+    <section class="dashboard">
+
+
+        <!-- ========================= -->
+        <!-- GRÁFICO -->
+        <!-- ========================= -->
+
+        <div class="card card-grafico">
+
+            <div class="card-titulo">
+
+                <i class="fa-solid fa-chart-simple"></i>
+
+                <h2>Consumo por Categoria</h2>
+
+            </div>
+
+
+            <div class="grafico-area">
+
+                <canvas id="graficoConsumo"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- CONSUMOS RECENTES -->
+        <!-- ========================= -->
+
+        <div class="card card-consumos">
+
+            <div class="card-titulo">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+                <h2>Consumos Recentes</h2>
+
+            </div>
+
+
+            <div class="lista-consumos">
+
+                {{#each consumos}}
+
+                <div class="consumo-item">
+
+
+                    <!-- ÍCONE -->
+
+                    <div class="consumo-icone
+                        {{#if (eq tipo " Água")}} icone-agua {{else}} icone-energia {{/if}} ">
+
+                        {{#if (eq tipo " Água")}} <i class="fa-solid fa-droplet"></i>
+
+                        {{else}}
+
+                        <i class="fa-solid fa-lightbulb"></i>
+
+                        {{/if}}
+
+                    </div>
+
+
+                    <!-- INFORMAÇÕES -->
+
+                    <div class="consumo-info">
+
+                        <strong>{{tipo}}</strong>
+
+                        <span>{{formatDate data}}</span>
+
+                    </div>
+
+
+                    <!-- VALOR -->
+
+                    <strong class="consumo-valor">
+
+                        R$ {{valor}}
+
+                    </strong>
+
+
+                    <!-- AÇÕES -->
+
+                    <div class="consumo-acoes">
+
+                        <a href="/consumos/editar/{{id}}" class="acao-editar" title="Editar">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                        </a>
+
+
+                        <form action="/consumos/excluir/{{id}}" method="POST">
+
+                            <button type="submit" class="acao-excluir" title="Excluir">
+
+                                <i class="fa-solid fa-trash-can"></i>
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                {{else}}
+
+                <div class="sem-consumos">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    <p>Nenhum consumo cadastrado.</p>
+
+                    <a href="/consumos/cadastrar">
+                        Adicionar primeiro consumo
+                    </a>
+
+                </div>
+
+                {{/each}}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- BOTÃO NOVO CONSUMO -->
+    <!-- ============================= -->
+
+    <div class="area-botao-consumo">
+
+        <a href="/consumos/cadastrar" class="btn-novo-consumo">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Novo Consumo
+
+        </a>
+
+    </div>
+
+</main>
+
+
+<!-- CHART.JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+    const ctx = document.getElementById("graficoConsumo");
+
+    new Chart(ctx, {
+
+        type: "bar",
+
+        data: {
+
+            labels: ["Água", "Energia"],
+
+            datasets: [{
+
+                data: [
+                    {{ totalAgua }},
+            {{ totalEnergia }}
+                ],
+
+        backgroundColor: [
+            "#1688f7",
+            "#ffbf00"
+        ],
+
+        borderColor: [
+            "#1688f7",
+            "#ffbf00"
+        ],
+
+        borderWidth: 0,
+
+        barThickness: 105
+
+    }]
+
+        },
+
+        options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        layout: {
+
+            padding: {
+                top: 30,
+                right: 15,
+                left: 10,
+                bottom: 5
+            }
+
+        },
+
+        plugins: {
+
+            legend: {
+
+                display: false,
+
+                position: "bottom",
+
+                labels: {
+
+                    color: "#d1d5db",
+
+                    boxWidth: 26,
+
+                    boxHeight: 12,
+
+                    padding: 20,
+
+                    font: {
+                        size: 14
+                    }
+
+                }
+
+            },
+
+            tooltip: {
+
+                callbacks: {
+
+                    label: function (context) {
+
+                        return "R$" + context.raw;
+
+                    }
+
+                }
+
+            }
+
+        },
+
+        scales: {
+
+            x: {
+
+                grid: {
+                    display: false
+                },
+
+                ticks: {
+
+                    color: "#d1d5db",
+
+                    font: {
+                        size: 14
+                    }
+
+                }
+
+            },
+
+            y: {
+
+                beginAtZero: true,
+
+                grid: {
+
+                    color: "rgba(148, 163, 184, 0.12)"
+
+                },
+
+                ticks: {
+
+                    color: "#cbd5e1",
+
+                    stepSize: 20,
+
+                    callback: function (value) {
+
+                        return value;
+
+                    }
+
+                },
+
+                title: {
+
+                    display: true,
+
+                    text: "Valor (R$)",
+
+                    color: "#cbd5e1",
+
+                    font: {
+                        size: 14
+                    }
+
+                }
+
+            }
+
+        }
+
+    },
+
+        plugins: [
+
+        {
+
+            id: "valoresEmCima",
+
+            afterDatasetsDraw(chart) {
+
+                const {
+
+                    ctx
+
+                } = chart;
+
+                ctx.save();
+
+                chart.data.datasets.forEach((dataset, datasetIndex) => {
+
+                    const meta = chart.getDatasetMeta(datasetIndex);
+
+                    meta.data.forEach((bar, index) => {
+
+                        const valor = dataset.data[index];
+
+                        ctx.fillStyle =
+                            index === 0
+                                ? "#1688f7"
+                                : "#ffbf00";
+
+                        ctx.font = "14px Arial";
+
+                        ctx.textAlign = "center";
+
+                        ctx.fillText(
+
+                            "R$" + valor,
+
+                            bar.x,
+
+                            bar.y - 10
+
+                        );
+
+                    });
+
+                });
+
+                ctx.restore();
+
+            }
+
+        }
+
+    ]
+
+    });
+
+</script>
+<script>
+
+    const alerta = document.getElementById("alertaCentral");
+
+    if (alerta) {
+
+        setTimeout(() => {
+
+            alerta.classList.add("saindo");
+
+            setTimeout(() => {
+
+                alerta.remove();
+
+            }, 400);
+
+        }, 2500);
+
+    }
+
+</script>

@@ -1,0 +1,139 @@
+<div class="pagina-formulario">
+
+    <div class="formulario-card">
+
+        <div class="formulario-titulo">
+
+            <div class="formulario-icone">
+
+                <i class="fa-solid fa-plus"></i>
+
+            </div>
+
+            <div>
+
+                <h1>Novo Consumo</h1>
+
+                <p>
+                    Cadastre seu gasto de água ou energia.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form
+            action="/consumos/add"
+            method="POST"
+            class="formulario"
+        >
+
+
+            <!-- TIPO -->
+
+            <div class="campo">
+
+                <label for="tipo">
+                    Tipo de consumo
+                </label>
+
+                <select
+                    name="tipo"
+                    id="tipo"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Selecione o tipo
+                    </option>
+
+                    <option value="Água">
+                        💧 Água
+                    </option>
+
+                    <option value="Energia">
+                        ⚡ Energia
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DATA -->
+
+            <div class="campo">
+
+                <label for="data">
+                    Data do consumo
+                </label>
+
+                <input
+                    type="date"
+                    name="data"
+                    id="data"
+                    required
+                >
+
+            </div>
+
+
+            <!-- VALOR -->
+
+            <div class="campo">
+
+                <label for="valor">
+                    Valor do consumo
+                </label>
+
+                <div class="campo-valor">
+
+                    <span>R$</span>
+
+                    <input
+                        type="number"
+                        name="valor"
+                        id="valor"
+                        placeholder="0,00"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÕES -->
+
+            <div class="formulario-acoes">
+
+                <a
+                    href="/"
+                    class="btn-cancelar"
+                >
+                    Cancelar
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn-salvar"
+                >
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Cadastrar consumo
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>

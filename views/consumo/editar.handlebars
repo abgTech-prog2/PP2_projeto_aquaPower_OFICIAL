@@ -1,0 +1,147 @@
+<div class="pagina-formulario">
+
+    <div class="formulario-card">
+
+        <div class="formulario-titulo">
+
+            <div class="formulario-icone">
+
+                <i class="fa-solid fa-pen-to-square"></i>
+
+            </div>
+
+            <div>
+
+                <h1>Editar Consumo</h1>
+
+                <p>
+                    Altere as informações do seu consumo.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form
+            action="/consumos/editar/{{consumo.id}}"
+            method="POST"
+            class="formulario"
+        >
+
+
+            <!-- TIPO -->
+
+            <div class="campo">
+
+                <label for="tipo">
+                    Tipo de consumo
+                </label>
+
+                <select
+                    name="tipo"
+                    id="tipo"
+                    required
+                >
+
+                    <option
+                        value="Água"
+                        {{#if (eq consumo.tipo "Água")}}
+                            selected
+                        {{/if}}
+                    >
+                        💧 Água
+                    </option>
+
+
+                    <option
+                        value="Energia"
+                        {{#if (eq consumo.tipo "Energia")}}
+                            selected
+                        {{/if}}
+                    >
+                        ⚡ Energia
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DATA -->
+
+            <div class="campo">
+
+                <label for="data">
+                    Data do consumo
+                </label>
+
+                <input
+                    type="date"
+                    name="data"
+                    id="data"
+                    value="{{consumo.data}}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- VALOR -->
+
+            <div class="campo">
+
+                <label for="valor">
+                    Valor do consumo
+                </label>
+
+                <div class="campo-valor">
+
+                    <span>R$</span>
+
+                    <input
+                        type="number"
+                        name="valor"
+                        id="valor"
+                        value="{{consumo.valor}}"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÕES -->
+
+            <div class="formulario-acoes">
+
+                <a
+                    href="/"
+                    class="btn-cancelar"
+                >
+                    Cancelar
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn-salvar"
+                >
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Salvar alterações
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
